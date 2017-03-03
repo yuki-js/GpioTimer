@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - A Pen by  yuki-js</title>
+
+
+      <style>
+      #currentValue {
+  text-align: center;
+}
+
+#value {
+  font-size: xx-large;
+}
+
+    </style>
+
+  
+  
+  
+  
+</head>
+
+<body translate="no" >
+
+  <div id="container">
+  <div id="currentValue">
+    <div class="jumbotron">
+      <p>現在の値</p>
+      <p id="value">ON</p>  
+    </div>
+  </div>
+  <canvas id="graph"></canvas>
+</div>
+  <script src='lib/jquery.min.js'></script>
+  <script src='lib/socket.io.min.js'></script>
+
+    <script>
+    "use strict";
+
+var canvas = $("#graph");
+var context = canvas[0].getContext("2d");
+var currentValue = false;
+var moveWidth = 1;
+var imgData = null;
+function draw() {
+  var width = canvas.width();
+  var height = canvas.height();
+  context.clearRect(0, 0, width, height);
+  imgData && context.putImageData(imgData, -moveWidth, 0);
+  context.strokeStyle = "red";
+  context.lineWidth = 10;
+  context.beginPath();
+
+  context.moveTo(width - moveWidth, currentValue * height);
+  context.lineTo(width, currentValue * height);
+
+  context.closePath();
+  context.stroke();
+  imgData = context.getImageData(0, 0, width, height);
+  window.requestAnimationFrame(draw);
+}
+draw();
+
+    var socket = io();
+    socket.on("change",function(v){
+    currentValue= !!v;
+    });
+  </script>
+
+  
+  
+
+</body>
+</html>
