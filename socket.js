@@ -14,9 +14,10 @@ var Gpio = require('pigpio').Gpio,
   led = new Gpio(17, {mode: Gpio.OUTPUT});
 
 button.on('interrupt', function (level) {
+  let time=process.hrtime();
   io.emit("change",{
     value:level,
-    ts:Date.now()
+    ts:time[0]+"."+time[1]
   });
 });
   

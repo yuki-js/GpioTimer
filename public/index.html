@@ -1,101 +1,43 @@
 <!DOCTYPE html>
 <html >
 
-<head>
-  <meta charset="UTF-8">
-  <title>GpioTimer by  yuki-js</title>
-
-
-      <style>
+  <head>
+    <meta charset="UTF-8">
+    <title>GpioTimer by  yuki-js</title>
+    <style>
       #currentValue {
-  text-align: center;
-}
+      text-align: center;
+      }
 
-#value {
-  font-size: xx-large;
-}
-
+      #value {
+      font-size: xx-large;
+      }
     </style>
-
-  
-  
-  
-  
-</head>
-
-<body translate="no" >
-
-  <div id="container">
-  <div id="currentValue">
-    <div class="jumbotron">
-      <p>現在の値</p>
-      <p id="value">ON</p>  
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+  </head>
+  <body translate="no" >
+    <div id="container">
+      <div id="currentValue">
+        <div class="jumbotron">
+          <p>現在の値</p>
+          <p id="value">ON</p>  
+        </div>
+      </div>
+      <canvas id="graph"></canvas>
+      <button id="pause">Pause/Resume</button>
+      <a href="#" id="out">click to output TSV</a>
+      
+      <textarea id="list" rows="30" cols="60"></textarea>
+      Physical Pin:12
     </div>
-  </div>
-  <button id="pause">Pause/Resume</button>
-  <canvas id="graph"></canvas>
-  <ul id="list"></ul>
-  Physical Pin:12
-</div>
-  <script src='lib/jquery.min.js'></script>
-  <script src='lib/socket.io.min.js'></script>
+    <script src='lib/jquery.min.js'></script>
+    <script src='lib/socket.io.min.js'></script>
 
-    <script>
-    "use strict";
+    <script src="./index.js">
+    </script>
 
-var canvas = $("#graph");
-var context = canvas[0].getContext("2d");
-var currentValue = false;
-var moveWidth = 1;
-    var imgData = null;
-    var pause=false;
-    function draw() {
-    if(pause){
-    return;
-    }
-  var width = canvas.width();
-  var height = canvas.height();
-  context.clearRect(0, 0, width, height);
-  imgData && context.putImageData(imgData, -moveWidth, 0);
-  context.strokeStyle = "red";
-  context.lineWidth = 10;
-  context.beginPath();
-
-  context.moveTo(width - moveWidth, currentValue * height);
-  context.lineTo(width, currentValue * height);
-
-  context.closePath();
-  context.stroke();
-  imgData = context.getImageData(0, 0, width, height);
-  window.requestAnimationFrame(draw);
-}
-    draw();
-
-    $("#pause").on("click",function(){
-    if(pause){
-    pause=false;
-    draw();
-    }else{
-    pause=true;
-    }
-    });
-
-    var socket = io();
-    socket.on("change",function(v){
     
-    currentValue= !!v.value;
-    $("#value").text(currentValue?"ON":"OFF");
-    if(pause){
-    return;
-    }
-    if($("#list").prepend("<li>"+currentValue*1+",\t"+v.ts+"</li>").children().length>36){
-    $("#list").children().last().remove();
-    }
-    });
-  </script>
+    
 
-  
-  
-
-</body>
+  </body>
 </html>
