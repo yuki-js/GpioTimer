@@ -55,7 +55,7 @@ socket.on("change",function(v){
         return;
     }
     
-    if(list.html(list.html()+","+currentValue*1+","+v.ts+","+(v.ts-lastTs)).children().length>36){
+    if(list.html(list.html()+"\n"+currentValue*1+","+v.ts+","+(v.ts-lastTs)).children().length>36){
         list.children().last().remove();
     }
     lastTs=v.ts*1;
