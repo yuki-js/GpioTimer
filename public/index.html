@@ -12,7 +12,9 @@
       #value {
       font-size: xx-large;
       }
+      
     </style>
+    <link href="lib/materialize.min.css" rel="stylesheet"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
   </head>
   <body translate="no" >
@@ -24,13 +26,22 @@
         </div>
       </div>
       <canvas id="graph"></canvas>
+
+      <table id="bigList">
+        <thead><tr><td>値</td>
+          <td>通算秒</td></tr></thead>
+        <tbody></tbody>
+      </table>
+      <br/>
       <button id="pause">Pause/Resume</button>
+      <br/>
       <a href="#" id="out">click to output TSV</a>
-      
+      <br/>
       <textarea id="list" rows="30" cols="60"></textarea>
-      Physical Pin:12
-      1 de OFF
-      0 de ON
+      
+      Physical Pin:12 <br/>
+      1 で OFF <br/>
+      0 で ON <br/>
     </div>
     <script src='lib/jquery.min.js'></script>
     <script src='lib/socket.io.min.js'></script>

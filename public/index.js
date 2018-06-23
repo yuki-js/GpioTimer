@@ -44,19 +44,21 @@ $("#out").on("click",function(){
         .attr("download","gpioTimer_"+d.getFullYear()+("0"+(d.getMonth()+1)).slice(-2)+("0"+d.getDate()).slice(-2)+("0"+(d.getHours())).slice(-2)+("0"+d.getMinutes()).slice(-2)+".csv");
 });
 var list=$("#list");
+var bl=$("#bigList tbody")
 list.html("value,sec,diff");
 var socket = io();
 var lastTs=0;
 socket.on("change",function(v){
-    
-    currentValue= !!v.value;
-    $("#value").text(currentValue?"ON":"OFF");
-    if(pause){
-        return;
-    }
-    
-    if(list.html(list.html()+"\n"+currentValue*1+","+v.ts+","+(v.ts-lastTs)).children().length>36){
-        list.children().last().remove();
-    }
-    lastTs=v.ts*1;
+  
+  currentValue= !!v.value;
+  $("#value").text(currentValue?"ON":"OFF");
+  if(pause){
+    return;
+  }
+
+  if(bl.prepend("<tr><td>"+currentValue*1+"</td><td>"+v.ts+"</td></tr>").children().length>10){
+    bl.find("tr").last().remove()
+  }
+  list.html(list.html()+"\n"+currentValue*1+","+v.ts+","+(v.ts-lastTs))
+  lastTs=v.ts*1;
 });
